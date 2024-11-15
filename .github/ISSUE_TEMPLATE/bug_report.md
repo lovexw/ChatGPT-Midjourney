@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: "[Bug] "
+title: "[Bug] 输入BUG标题"
 labels: ''
 assignees: ''
 
@@ -26,6 +26,7 @@ If applicable, add screenshots to help explain your problem.
 **Deployment**
 - [ ] Docker
 - [ ] Vercel
+- [ ] Railway
 - [ ] Server
 
 **Desktop (please complete the following information):**

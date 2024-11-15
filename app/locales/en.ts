@@ -1,62 +1,37 @@
+import { getClientConfig } from "../config/client";
 import { SubmitKey } from "../store/config";
-import { RequiredLocaleType } from "./index";
+import { LocaleType } from "./index";
 
-const en: RequiredLocaleType = {
+// if you are adding a new translation, please use PartialLocaleType instead of LocaleType
+
+const isApp = !!getClientConfig()?.isApp;
+const en: LocaleType = {
   WIP: "Coming Soon...",
   Error: {
-    Unauthorized:
-      "Unauthorized access, please enter access code in [auth](/#/auth) page.",
+    Unauthorized: isApp
+      ? "Invalid API Key, please check it in [Settings](/#/settings) page."
+      : "Unauthorized access, please enter access code in [auth](/#/auth) page, or enter your OpenAI API Key.",
   },
   Auth: {
     Title: "Need Access Code",
     Tips: "Please enter access code below",
+    SubTips: "Or enter your OpenAI or Google API Key",
     Input: "access code",
     Confirm: "Confirm",
     Later: "Later",
-  },
-  Midjourney: {
-    SelectImgMax: (max: number) => `Select up to ${max} images`,
-    InputDisabled: "Input is disabled in this mode",
-    HasImgTip:
-      "Tip: In the mask mode, only the first image will be used. In the blend mode, the two selected images will be used in order (click the image to remove it)",
-    ModeImagineUseImg: "Mask Mode",
-    ModeBlend: "Blend Mode",
-    ModeDescribe: "Describe Mode",
-    NeedInputUseImgPrompt:
-      'You need to enter content to use the image in the mask mode, please enter the content starting with "/mj"',
-    BlendMinImg: (min: number) =>
-      `At least ${min} images are required in the blend mode`,
-    TaskErrUnknownType: "Task submission failed: unknown task type",
-    TaskErrNotSupportType: (type: string) =>
-      `Task submission failed: unsupported task type -> ${type}`,
-    StatusCode: (code: number) => `Status code: ${code}`,
-    TaskSubmitErr: (err: string) => `Task submission failed: ${err}`,
-    RespBody: (body: string) => `Response body: ${body}`,
-    None: "None",
-    UnknownError: "Unknown error",
-    UnknownReason: "Unknown reason",
-    TaskPrefix: (prompt: string, taskId: string) =>
-      `**Prompt:** ${prompt}\n**Task ID:** ${taskId}\n`,
-    PleaseWait: "Please wait a moment",
-    TaskSubmitOk: "Task submitted successfully",
-    TaskStatusFetchFail: "Failed to get task status",
-    TaskStatus: "Task status",
-    TaskRemoteSubmit: "Task has been submitted to Midjourney server",
-    TaskProgressTip: (progress: number | undefined) =>
-      `Task is running${progress ? `, current progress: ${progress}` : ""}`,
-    TaskNotStart: "Task has not started",
-    Url: "URL",
-    SettingProxyCoverTip:
-      "The MidjourneyProxy address defined here will override the MIDJOURNEY_PROXY_URL in the environment variables",
-    ImageAgent: "Image Agent",
-    ImageAgentOpenTip:
-      "After turning it on, the returned Midjourney image will be proxied by this program itself, so this program needs to be in a network environment that can access cdn.discordapp.com to be effective",
   },
   ChatItem: {
     ChatItemCount: (count: number) => `${count} messages`,
   },
   Chat: {
-    SubTitle: (count: number) => `${count} messages with ChatGPT`,
+    SubTitle: (count: number) => `${count} messages`,
+    EditMessage: {
+      Title: "Edit All Messages",
+      Topic: {
+        Title: "Topic",
+        SubTitle: "Change the current topic",
+      },
+    },
     Actions: {
       ChatList: "Go To Chat List",
       CompressedHistory: "Compressed History Memory Prompt",
@@ -64,7 +39,33 @@ const en: RequiredLocaleType = {
       Copy: "Copy",
       Stop: "Stop",
       Retry: "Retry",
+      Pin: "Pin",
+      PinToastContent: "Pinned 1 messages to contextual prompts",
+      PinToastAction: "View",
       Delete: "Delete",
+      Edit: "Edit",
+    },
+    Commands: {
+      new: "Start a new chat",
+      newm: "Start a new chat with mask",
+      next: "Next Chat",
+      prev: "Previous Chat",
+      clear: "Clear Context",
+      del: "Delete Chat",
+    },
+    InputActions: {
+      Stop: "Stop",
+      ToBottom: "To Latest",
+      Theme: {
+        auto: "Auto",
+        light: "Light Theme",
+        dark: "Dark Theme",
+      },
+      Prompt: "Prompts",
+      Masks: "Masks",
+      Clear: "Clear Context",
+      Settings: "Settings",
+      UploadImage: "Upload Images",
     },
     Rename: "Rename Chat",
     Typing: "Typing…",
@@ -73,13 +74,14 @@ const en: RequiredLocaleType = {
       if (submitKey === String(SubmitKey.Enter)) {
         inputHints += ", Shift + Enter to wrap";
       }
-      return inputHints + ", / to search prompts";
+      return inputHints + ", / to search prompts, : to use commands";
     },
     Send: "Send",
     Config: {
       Reset: "Reset to Default",
       SaveAs: "Save as Mask",
     },
+    IsContext: "Contextual Prompt",
   },
   Export: {
     Title: "Export Messages",
@@ -99,6 +101,14 @@ const en: RequiredLocaleType = {
     Steps: {
       Select: "Select",
       Preview: "Preview",
+    },
+    Image: {
+      Toast: "Capturing Image...",
+      Modal: "Long press or right click to save image",
+    },
+    Artifacts: {
+      Title: "Share Artifacts",
+      Error: "Share Error",
     },
   },
   Select: {
@@ -125,12 +135,19 @@ const en: RequiredLocaleType = {
   Settings: {
     Title: "Settings",
     SubTitle: "All Settings",
-    Actions: {
-      ClearAll: "Clear All Data",
-      ResetAll: "Reset All Settings",
-      Close: "Close",
-      ConfirmResetAll: "Are you sure you want to reset all configurations?",
-      ConfirmClearAll: "Are you sure you want to reset all data?",
+    Danger: {
+      Reset: {
+        Title: "Reset All Settings",
+        SubTitle: "Reset all setting items to default",
+        Action: "Reset",
+        Confirm: "Confirm to reset all settings to default?",
+      },
+      Clear: {
+        Title: "Clear All Data",
+        SubTitle: "Clear all messages and settings",
+        Action: "Clear",
+        Confirm: "Confirm to clear all messages and settings?",
+      },
     },
     Lang: {
       Name: "Language", // ATTENTION: if you wanna add a new translation, please do not translate this value, leave it as `Language`
@@ -141,6 +158,15 @@ const en: RequiredLocaleType = {
       Title: "Font Size",
       SubTitle: "Adjust font size of chat content",
     },
+    InjectSystemPrompts: {
+      Title: "Inject System Prompts",
+      SubTitle: "Inject a global system prompt for every request",
+    },
+    InputTemplate: {
+      Title: "Input Template",
+      SubTitle: "Newest message will be filled to this template",
+    },
+
     Update: {
       Version: (x: string) => `Version: ${x}`,
       IsLatest: "Latest version",
@@ -156,9 +182,63 @@ const en: RequiredLocaleType = {
       Title: "Send Preview Bubble",
       SubTitle: "Preview markdown in bubble",
     },
+    AutoGenerateTitle: {
+      Title: "Auto Generate Title",
+      SubTitle: "Generate a suitable title based on the conversation content",
+    },
+    Sync: {
+      CloudState: "Last Update",
+      NotSyncYet: "Not sync yet",
+      Success: "Sync Success",
+      Fail: "Sync Fail",
+
+      Config: {
+        Modal: {
+          Title: "Config Sync",
+          Check: "Check Connection",
+        },
+        SyncType: {
+          Title: "Sync Type",
+          SubTitle: "Choose your favorite sync service",
+        },
+        Proxy: {
+          Title: "Enable CORS Proxy",
+          SubTitle: "Enable a proxy to avoid cross-origin restrictions",
+        },
+        ProxyUrl: {
+          Title: "Proxy Endpoint",
+          SubTitle:
+            "Only applicable to the built-in CORS proxy for this project",
+        },
+
+        WebDav: {
+          Endpoint: "WebDAV Endpoint",
+          UserName: "User Name",
+          Password: "Password",
+        },
+
+        UpStash: {
+          Endpoint: "UpStash Redis REST Url",
+          UserName: "Backup Name",
+          Password: "UpStash Redis REST Token",
+        },
+      },
+
+      LocalState: "Local Data",
+      Overview: (overview: any) => {
+        return `${overview.chat} chats，${overview.message} messages，${overview.prompt} prompts，${overview.mask} masks`;
+      },
+      ImportFailed: "Failed to import from file",
+    },
     Mask: {
-      Title: "Mask Splash Screen",
-      SubTitle: "Show a mask splash screen before starting new chat",
+      Splash: {
+        Title: "Mask Splash Screen",
+        SubTitle: "Show a mask splash screen before starting new chat",
+      },
+      Builtin: {
+        Title: "Hide Builtin Masks",
+        SubTitle: "Hide builtin masks in mask list",
+      },
     },
     Prompt: {
       Disable: {
@@ -187,11 +267,7 @@ const en: RequiredLocaleType = {
       SubTitle:
         "Will compress if uncompressed messages length exceeds the value",
     },
-    Token: {
-      Title: "API Key",
-      SubTitle: "Use your key to ignore access code limit",
-      Placeholder: "OpenAI API Key",
-    },
+
     Usage: {
       Title: "Account Balance",
       SubTitle(used: any, total: any) {
@@ -201,15 +277,162 @@ const en: RequiredLocaleType = {
       Check: "Check",
       NoAccess: "Enter API Key to check balance",
     },
-    AccessCode: {
-      Title: "Access Code",
-      SubTitle: "Access control enabled",
-      Placeholder: "Need Access Code",
+    Access: {
+      AccessCode: {
+        Title: "Access Code",
+        SubTitle: "Access control Enabled",
+        Placeholder: "Enter Code",
+      },
+      CustomEndpoint: {
+        Title: "Custom Endpoint",
+        SubTitle: "Use custom Azure or OpenAI service",
+      },
+      Provider: {
+        Title: "Model Provider",
+        SubTitle: "Select Azure or OpenAI",
+      },
+      OpenAI: {
+        ApiKey: {
+          Title: "OpenAI API Key",
+          SubTitle: "User custom OpenAI Api Key",
+          Placeholder: "sk-xxx",
+        },
+
+        Endpoint: {
+          Title: "OpenAI Endpoint",
+          SubTitle: "Must start with http(s):// or use /api/openai as default",
+        },
+      },
+      Azure: {
+        ApiKey: {
+          Title: "Azure Api Key",
+          SubTitle: "Check your api key from Azure console",
+          Placeholder: "Azure Api Key",
+        },
+
+        Endpoint: {
+          Title: "Azure Endpoint",
+          SubTitle: "Example: ",
+        },
+
+        ApiVerion: {
+          Title: "Azure Api Version",
+          SubTitle: "Check your api version from azure console",
+        },
+      },
+      Anthropic: {
+        ApiKey: {
+          Title: "Anthropic API Key",
+          SubTitle:
+            "Use a custom Anthropic Key to bypass password access restrictions",
+          Placeholder: "Anthropic API Key",
+        },
+
+        Endpoint: {
+          Title: "Endpoint Address",
+          SubTitle: "Example: ",
+        },
+
+        ApiVerion: {
+          Title: "API Version (claude api version)",
+          SubTitle: "Select and input a specific API version",
+        },
+      },
+      Baidu: {
+        ApiKey: {
+          Title: "Baidu API Key",
+          SubTitle: "Use a custom Baidu API Key",
+          Placeholder: "Baidu API Key",
+        },
+        SecretKey: {
+          Title: "Baidu Secret Key",
+          SubTitle: "Use a custom Baidu Secret Key",
+          Placeholder: "Baidu Secret Key",
+        },
+        Endpoint: {
+          Title: "Endpoint Address",
+          SubTitle: "not supported, configure in .env",
+        },
+      },
+      ByteDance: {
+        ApiKey: {
+          Title: "ByteDance API Key",
+          SubTitle: "Use a custom ByteDance API Key",
+          Placeholder: "ByteDance API Key",
+        },
+        Endpoint: {
+          Title: "Endpoint Address",
+          SubTitle: "Example: ",
+        },
+      },
+      Alibaba: {
+        ApiKey: {
+          Title: "Alibaba API Key",
+          SubTitle: "Use a custom Alibaba Cloud API Key",
+          Placeholder: "Alibaba Cloud API Key",
+        },
+        Endpoint: {
+          Title: "Endpoint Address",
+          SubTitle: "Example: ",
+        },
+      },
+      Stability: {
+        ApiKey: {
+          Title: "Stability API Key",
+          SubTitle: "Use a custom Stability API Key",
+          Placeholder: "Stability API Key",
+        },
+        Endpoint: {
+          Title: "Endpoint Address",
+          SubTitle: "Example: ",
+        },
+      },
+      Midjourney: {
+        ApiKey: {
+          Title: "Midjourney Proxy API Key",
+          SubTitle: "Use a custom Midjourney Proxy API Key",
+          Placeholder: "Midjourney Proxy API Key",
+        },
+        Endpoint: {
+          Title: "Endpoint Address",
+          SubTitle: "Example: ",
+        },
+      },
+      CustomModel: {
+        Title: "Custom Models",
+        SubTitle: "Custom model options, seperated by comma",
+      },
+      Google: {
+        ApiKey: {
+          Title: "API Key",
+          SubTitle: "Obtain your API Key from Google AI",
+          Placeholder: "Enter your Google AI Studio API Key",
+        },
+
+        Endpoint: {
+          Title: "Endpoint Address",
+          SubTitle: "Example: ",
+        },
+
+        ApiVersion: {
+          Title: "API Version (specific to gemini-pro)",
+          SubTitle: "Select a specific API version",
+        },
+        GoogleSafetySettings: {
+          Title: "Google Safety Settings",
+          SubTitle: "Select a safety filtering level",
+        },
+      },
     },
+
     Model: "Model",
     Temperature: {
       Title: "Temperature",
       SubTitle: "A larger value makes the more random output",
+    },
+    TopP: {
+      Title: "Top P",
+      SubTitle: "Do not alter this value together with temperature",
     },
     MaxTokens: {
       Title: "Max Tokens",
@@ -220,6 +443,11 @@ const en: RequiredLocaleType = {
       SubTitle:
         "A larger value increases the likelihood to talk about new topics",
     },
+    FrequencyPenalty: {
+      Title: "Frequency Penalty",
+      SubTitle:
+        "A larger value decreasing the likelihood to repeat the same line",
+    },
   },
   Store: {
     DefaultTopic: "New Conversation",
@@ -229,7 +457,7 @@ const en: RequiredLocaleType = {
       History: (content: string) =>
         "This is a summary of the chat history as a recap: " + content,
       Topic:
-        "Please generate a four to five word title summarizing our conversation without any lead-in, punctuation, quotation marks, periods, symbols, or additional text. Remove enclosing quotation marks.",
+        "Please generate a four to five word title summarizing our conversation without any lead-in, punctuation, quotation marks, periods, symbols, bold text, or additional text. Remove enclosing quotation marks.",
       Summarize:
         "Summarize the discussion briefly in 200 words or less to use as a prompt for future context.",
     },
@@ -238,15 +466,27 @@ const en: RequiredLocaleType = {
     Success: "Copied to clipboard",
     Failed: "Copy failed, please grant permission to access clipboard",
   },
+  Download: {
+    Success: "Content downloaded to your directory.",
+    Failed: "Download failed.",
+  },
   Context: {
     Toast: (x: any) => `With ${x} contextual prompts`,
-    Edit: "Contextual and Memory Prompts",
+    Edit: "Current Chat Settings",
     Add: "Add a Prompt",
     Clear: "Context Cleared",
     Revert: "Revert",
   },
   Plugin: {
     Name: "Plugin",
+    Artifacts: "Artifacts",
+  },
+  Discovery: {
+    Name: "Draw",
+    SelectTip: "Select a model to start",
+  },
+  FineTuned: {
+    Sysmessage: "You are an assistant that",
   },
   Mask: {
     Name: "Mask",
@@ -282,6 +522,11 @@ const en: RequiredLocaleType = {
         Title: "Hide Context Prompts",
         SubTitle: "Do not show in-context prompts in chat",
       },
+      Share: {
+        Title: "Share This Mask",
+        SubTitle: "Generate a link to this mask",
+        Action: "Copy Link",
+      },
     },
   },
   NewChat: {
@@ -300,6 +545,137 @@ const en: RequiredLocaleType = {
     Close: "Close",
     Create: "Create",
     Edit: "Edit",
+    Export: "Export",
+    Import: "Import",
+    Sync: "Sync",
+    Config: "Config",
+  },
+  Exporter: {
+    Description: {
+      Title: "Only messages after clearing the context will be displayed",
+    },
+    Model: "Model",
+    Messages: "Messages",
+    Topic: "Topic",
+    Time: "Time",
+  },
+  URLCommand: {
+    Code: "Detected access code from url, confirm to apply? ",
+    Settings: "Detected settings from url, confirm to apply?",
+  },
+  SdPanel: {
+    Prompt: "Prompt",
+    NegativePrompt: "Negative Prompt",
+    PleaseInput: (name: string) => `Please input ${name}`,
+    AspectRatio: "Aspect Ratio",
+    ImageStyle: "Image Style",
+    OutFormat: "Output Format",
+    AIModel: "AI Model",
+    ModelVersion: "Model Version",
+    Submit: "Submit",
+    ParamIsRequired: (name: string) => `${name} is required`,
+    Styles: {
+      D3Model: "3d-model",
+      AnalogFilm: "analog-film",
+      Anime: "anime",
+      Cinematic: "cinematic",
+      ComicBook: "comic-book",
+      DigitalArt: "digital-art",
+      Enhance: "enhance",
+      FantasyArt: "fantasy-art",
+      Isometric: "isometric",
+      LineArt: "line-art",
+      LowPoly: "low-poly",
+      ModelingCompound: "modeling-compound",
+      NeonPunk: "neon-punk",
+      Origami: "origami",
+      Photographic: "photographic",
+      PixelArt: "pixel-art",
+      TileTexture: "tile-texture",
+    },
+  },
+  Sd: {
+    SubTitle: (count: number) => `${count} images`,
+    Actions: {
+      Params: "See Params",
+      Copy: "Copy Prompt",
+      Delete: "Delete",
+      Retry: "Retry",
+      ReturnHome: "Return Home",
+      History: "History",
+    },
+    EmptyRecord: "No images yet",
+    Status: {
+      Name: "Status",
+      Success: "Success",
+      Error: "Error",
+      Wait: "Waiting",
+      Running: "Running",
+    },
+    Danger: {
+      Delete: "Confirm to delete?",
+    },
+    GenerateParams: "Generate Params",
+    Detail: "Detail",
+  },
+  Mj: {
+    SubTitle: (count: number) => `${count} images`,
+    Actions: {
+      Params: "See Params",
+      Copy: "Copy Prompt",
+      Delete: "Delete",
+      Retry: "Retry",
+      ReturnHome: "Return Home",
+      History: "History",
+    },
+    EmptyRecord: "No images yet",
+    Status: {
+      Name: "Status",
+      Success: "Success",
+      Error: "Error",
+      Wait: "Waiting",
+      Running: "Running",
+    },
+    Danger: {
+      Delete: "Confirm to delete?",
+    },
+    GenerateParams: "Generate Params",
+    Detail: "Detail",
+  },
+  MjPanel: {
+    Prompt: "Prompt",
+    NegativePrompt: "Negative Prompt",
+    PleaseInput: (name: string) => `Please input ${name}`,
+    AspectRatio: "Aspect Ratio",
+    AIModel: "AI Model",
+    AIAction: "AI Action",
+    ModelVersion: "Model Version",
+    Submit: "Submit",
+    TaskId: "Task ID",
+    ParamIsRequired: (name: string) => `${name} is required`,
+    Imagine: "Imagine",
+    Blend: "Blend",
+    Describe: "Describe",
+    VaryRegion: "Vary Region",
+    SubmitRegion: "Submit Vary Region",
+    ImagineParam: {
+      IwImage: "Reference image",
+      IwImageTip:
+        "Up to 2 images can be removed by selecting and clicking on the image",
+      IwTitle: "Reference image weight",
+      IwTip: "The range is 0.0~2.0",
+      SeedTip: "The range is 0~4294967294",
+    },
+    BlendParam: {
+      ImageTitle: "Blend image",
+      ImageTip:
+        "At least 2, at most 5, select the image and click on it to remove it",
+      Dimensions: "Dimensions",
+    },
+    DescribeParam: {
+      ImageTitle: "Describe image",
+      ImageTip: "After selecting the image, click on it to remove it",
+    },
   },
 };
 

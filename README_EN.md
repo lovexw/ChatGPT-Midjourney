@@ -1,113 +1,105 @@
 <div align="center">
 
-<h1 align="center">ChatGPT-Midjourney</h1>
+<h1 align="center">🌻 ChatAny</h1>
 
-[中文](./README.md) | English | [日本語](./README_JA.md)
+[中文](./README.md) | English
 
-One-click free deployment of your private ChatGPT+Midjourney web application (based on [ChatGPT-Next-Web](https://github.com/Yidadaa/ChatGPT-Next-Web) development)
+One-click to own your own `ChatGPT` + `many AI` aggregation web service (based on [ChatGPT-Next-Web](https://github.com/ChatGPTNextWeb/ChatGPT-Next-Web) development)
 
-[QQ Group](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=gAGpNxOKdRB3L_IiHWAfT4MUQzgBOor-&authKey=Ty8WQgZFub8W1EsG3LQE2B3xxRRBzD0Rj1rPyRVFdT6IqnJgGcpPZB5l8ZVJTB1n&noverify=0&group_code=849273126) | [Telegram](https://t.me/gptmj) ｜ [Full Platform AI Intelligent Assistant](https://dd.gitcdn.top/Atop)
+[QQ Exchange Group](https://github.com/ChatAnyTeam/ChatAny/issues/30) | [💥PRO VERSION](https://github.com/Licoy/GoAmzAI)
 
-[![Deploy with Vercel](https://img.shields.io/badge/Vercel-Deploy-00CCCC.svg?logo=vercel)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FLicoy%2FChatGPT-Midjourney&env=OPENAI_API_KEY&env=MIDJOURNEY_PROXY_URL&env=CODE&project-name=chatgpt-midjourney&repository-name=ChatGPT-Midjourney)
-[![Deploy with Railway](https://img.shields.io/badge/MidjourneyProxy-RailwayDeploy-009900.svg?logo=railway)](https://github.com/novicezk/midjourney-proxy/blob/main/docs/railway-start.md)
+[![WordPress+ChatGPT support](https://img.shields.io/badge/WordPress-AIGC%20deployment-red.svg?logo=wordpress&logoColor=red)](https://github.com/Licoy/wordpress-theme-puock)
 
-[![WordPress+ChatGPT支持](https://img.shields.io/badge/WordPress-ChatGPT%20Deploy-red.svg?logo=wordpress&logoColor=red&style=for-the-badge)](https://github.com/Licoy/wordpress-theme-puock)
-
-![Main interface](./docs/images/cover.png)
+![Main interface](./docs/images/step-2-en.png)
 
 </div>
 
-## Support
-- [x] All features of the original `ChatGPT-Next-Web`
-- [x] midjourney `imagine`
-- [x] midjourney `upscale` Zoom in
-- [x] midjourney `variation`
-- [x] midjourney `describe`
-- [x] midjourney `blend`
-- [x] midjourney pad figure
-- [x] Drawing progress percentage, live image display
-- [ ] Supports midjournal API on its own
+## Function support
+> 🍭 PRO version supports more powerful functions:
+> - Servers with a minimum of 1C1G can run smoothly
+> - Baota's extremely fast visual deployment and easy-to-understand configuration
+> - The site is fully adaptive and supports PC, tablet, and mobile phones
+> - Low memory usage, Golang development native high concurrency support
+> - Contains many AI modules such as AI dialogue, AI painting, AI music, AI video, AI generated PPT, PDF parsing dialogue, AI application support, etc.
+> - Has a very complete operating mechanism, including but not limited to package system, redemption code system, invitation rewards, sign-in benefits, promotion rebates, etc.
+> - [🫱 Click me to learn and experience the PRO version immediately](https://github.com/Licoy/GoAmzAI)
+
+### Already supported
+- [x] All functions of the original `ChatGPT-Next-Web`
+- [x] StabilityAI
+  - [x] Support for Stable Image Ultra
+  - [x] Support for Stable Image Core
+  - [x] Support for Stable Diffusion 3
+- [x] Midjourney `(unofficial)`
+  - [x] Midjourney `Imgine` `Upscale` `Variation` `Zoom` `Vary` `Pan` `Reroll` `Describe` `Blend` and many other operations, perfectly supporting any operation after Midjourney image generation
+  - [x] Midjourney region redrawing (Vary Region) support
+  - [x] Midjourney reference image
+  - [x] Drawing progress percentage, real-time image display
+
+## MidjourneyAPI description
+> The Midjourney-related API interface of this project uses the following open source projects or similar projects to provide API generation capability support. Before using this project, you need to build this service yourself, or use the API of a third-party transit platform.
+
+### Open Source Midjourney-Proxy
+- Project address: [trueai-org/midjourney-proxy](https://github.com/trueai-org/midjourney-proxy)
 
 ## Parameter Description
-### MIDJOURNEY_PROXY_URL
-```shell
-MIDJOURNEY_PROXY_URL=http://yourip:port
-```
-> ⚠️ Note: If you are using Docker deployment, the address here should be `http://public IP:port`, not `http://localhost:port`, because the container in Docker is isolated , `localhost` points to the address inside the container, not the address of the host.
-- in the interface
-
-![mj-6](./docs/images/mj-6.png)
-
-### MIDJOURNEY_PROXY_API_SECRET
-(optional) The API request key of `midjourney-proxy`, to prevent malicious calls from others, can be configured in environment variables.
-
-### CODE
-(optional) Set the access password on the page to prevent it from being easily used by others to consume the balance
+### `MJ_PROXY_URL`
+MJ Proxy API link address
+### `MJ_PROXY_KEY`
+MJ Proxy API key
+### `CODE`
+(Optional) Set the access password on the page
+### `...Other parameters`
+Same as ChatGPT-Next-Web
 
 ## Deployment
-### ChatGPT-Midjourney front-end deployment
-#### Docker
+### Docker
 ```shell
-docker pull licoy/chatgpt-midjourney:latest
 docker run -d -p 3000:3000 \
-    -e OPENAI_API_KEY="sk-xxx" \
-    -e CODE="123456" \
-    -e BASE_URL="https://api.openai.com" \
-    -e MIDJOURNEY_PROXY_URL="http://ip:port" \
-    licoy/chatgpt-midjourney:latest
+-e OPENAI_API_KEY="sk-xxx" \
+-e BASE_URL="https://api.openai.com" \
+-e MJ_PROXY_URL="" \
+-e MJ_PROXY_KEY="" \ licoy/chatany:latest
 ```
-#### Vercel
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FLicoy%2FChatGPT-Midjourney&env=OPENAI_API_KEY&env=MIDJOURNEY_PROXY_URL&env=CODE&project-name=chatgpt-midjourney&repository-name=ChatGPT-Midjourney)
-#### Manual deployment
-- clone this project to local
+### Vercel
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FChatAnyTeam%2FChatAny&env=OPENAI_API_KEY&env=MJ_PROXY_URL&env=MJ_PROXY_KEY&env=CODE&project-name=chat-any&repository-name=ChatAny)
+### Railway
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/1g6vDL?referralCode=vvEj-K)
+### Sealos
+[![](https://raw.githubusercontent.com/labring-actions/templates/main/Deploy-on-Sealos.svg)](https://cloud.sealos.io/?openapp=system-template%3FtemplateName%3Dchatany)
+
+### Manual deployment
+- Clone this project to local
 - Install dependencies
 ```shell
 npm install
 npm run build
-npm run start // #or start in development mode: npm run dev
+npm run start // #Or start in development mode: npm run dev
 ```
-### midjourney-proxy service deployment
-#### Docker
-- Run `midjourney-proxy` (Midjourney API service, for more parameter configuration, please refer to: [midjourney-proxy](https://github.com/novicezk/midjourney-proxy))
-```shell
-docker pull novicezk/midjourney-proxy:latest
-docker run -d --name midjourney-proxy \
-  -p 8080:8080 \
-  -e mj.discord.guild-id=xxx \
-  -e mj.discord.channel-id=xxx \
-  -e mj.discord.user-token=xxx\
-  -e mj.discord.bot-token=xxx\
-  --restart=always \
-  novicezk/midjourney-proxy:latest
-```
-#### Railway
-> Railway is a platform that provides flexible deployment solutions. The service is overseas, which is convenient for MidJourney to call.
-
-Reference: [midjourney-proxy - Railway Deployment Tutorial](https://github.com/novicezk/midjourney-proxy/blob/main/docs/railway-start.md)
-
 
 ## Use
-Enter your painting description starting with `/mj` in the input box to create a painting, for example:
-```
-/mj a dog
-```
-### Mixing images, recognizing images, matting images
-![mj-5](./docs/images/mj-5.png)
-> Tips: Pad mode/describe mode will only use the first picture, and blend mode will use the two selected pictures in order (click on the picture to remove)
-
-## Screenshot
-### Mixing images, recognizing images, matting images
-![mj-4](./docs/images/mj-4.png)
-### Status real-time acquisition
-![mj-2](./docs/images/mj-1.png)
-### Custom midjourney parameters
-![mj-2](./docs/images/mj-2.png)
+### Create a painting
+After deployment, click the painting in the upper left corner and select the painting model you need to use to enter:
+![step-1](./docs/images/step-1-en.png)
+## Screenshots
+### Midjourney generates the main interface
+![step-1](./docs/images/step-2-en.png)
+### Midjourney Vary Region
+![step-1](./docs/images/step-5-en.png)
+### StabilityAI generates the main interface
+![step-1](./docs/images/step-3-en.png)
+### Custom configuration interface
+![step-1](./docs/images/step-4-en.png)
 ### More features
-- Waiting for you to discover
+Waiting for you to discover
 
-## Acknowledgments
-- [ChatGPT-Next-Web](https://github.com/Yidadaa/ChatGPT-Next-Web)
-- [midjourney-proxy](https://github.com/novicezk/midjourney-proxy)
+## Third-party transfer API
+> The following is a third-party transfer API. This project does not provide any guarantee. Please choose to use it by yourself. If you encounter any questions, please contact the corresponding platform customer service.
+
+[![GPTNB transfer API](https://img.shields.io/badge/GPTNB%20API-2E8B57.svg?logo=openai&logoColor=green&style=for-the-badge)](https://goapi.gptnb.ai)
+
+[![VMAN transfer API](https://img.shields.io/badge/VMAN%20API-50616D.svg?logo=openai&logoColor=green&style=for-the-badge)](https://api.mjdjourney.cn)
+
 
 ## Open source agreement
-[Anti 996 LICENSE](./LICENSE)
+[MIT](./LICENSE)
